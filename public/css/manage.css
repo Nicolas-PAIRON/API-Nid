@@ -1,0 +1,30 @@
+#lien_admin{
+    margin:2em 2em;
+}
+
+img{
+    width:10vw;
+}
+
+table{
+    margin: 5em auto;
+    border-collapse: collapse;
+    border:black 3px solid;
+    text-align: center;
+}
+
+tr,td,th{
+    border:black 3px solid;
+}
+
+th{
+    padding: 1em 1em;
+}
+
+.oui{
+    background-color: green;
+}
+
+.non{
+    background-color: red;
+}

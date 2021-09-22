@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('css/manage.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Manage Pictures{% endblock %}
+
+{% block body %}
+
+<h1>Gestion des images</h1>
+<a href="{{ path('admin') }}" id="lien_admin">retour à l'admin</a>
+<table>
+    <thead>
+        <tr>
+            <th>nom</th>
+            <th>image</th>
+            <th>utilisée dans produit picture1</th>
+            <th>utilisée dans produit picture2</th>
+            <th>utilisée dans produit picture3</th>
+            <th>utilisée dans category</th>
+            <th>utilisée dans colection</th>
+            <th>utilisée dans slider</th>
+            <th>suppression</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for key, value in array_of_pictures %}
+
+        {% if value['productUse']['picture1'] == true %} 
+           {% set useInProductPicture1 = 'oui' %} 
+        {% else %}
+           {% set useInProductPicture1 = 'non' %}
+        {% endif %}
+
+        {% if value['productUse']['picture2'] == true %} 
+           {% set useInProductPicture2 = 'oui' %} 
+        {% else %}
+           {% set useInProductPicture2 = 'non' %}
+        {% endif %}
+
+        {% if value['productUse']['picture3'] == true %} 
+           {% set useInProductPicture3 = 'oui' %} 
+        {% else %}
+           {% set useInProductPicture3 = 'non' %}
+        {% endif %}
+
+        {% if value['categoryUse']['picture'] == true %} 
+           {% set useInCategoryPicture = 'oui' %} 
+        {% else %}
+           {% set useInCategoryPicture = 'non' %}
+        {% endif %}
+
+        {% if value['colectionUse']['picture'] == true %} 
+           {% set useInColectionPicture = 'oui' %} 
+        {% else %}
+           {% set useInColectionPicture = 'non' %}
+        {% endif %}
+
+        {% if value['sliderUse']['picture'] == true %} 
+           {% set useInSliderPicture = 'oui' %} 
+        {% else %}
+           {% set useInSliderPicture = 'non' %}
+        {% endif %}
+        
+        <tr>
+            <td>{{ value['file_name'] }}</td>
+            <td><img src="{{ asset(baseUrl_picture ~ value['file_name']) }}"/></td>
+            <td class="{{ useInProductPicture1 }}">{{ useInProductPicture1 }}</td>
+            <td class="{{ useInProductPicture2 }}">{{ useInProductPicture2 }}</td>
+            <td class="{{ useInProductPicture3 }}">{{ useInProductPicture3 }}</td>
+            <td class="{{ useInCategoryPicture }}">{{ useInCategoryPicture }}</td>
+            <td class="{{ useInColectionPicture }}">{{ useInColectionPicture }}</td>
+            <td class="{{ useInSliderPicture }}">{{ useInSliderPicture }}</td>
+            <td>
+               <form method="post" action="{{ path('admin_manage_pictures_delete', {"id" : key}) }}" onsubmit="return confirm('Etes-vous sûr de supprimer?');">
+               <input type="hidden" name="_method" value="DELETE">
+               <input type="hidden" name="_token" value="{{ csrf_token('delete-toto-image' ~ key) }}">
+               <button>Supprimer</button>
+               </form>
+            </td>
+            {# ou sans form: <td><a href="{{ path('admin_manage_pictures_delete', {"id" : key}) }}">Supprimer</a></td> #}
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+
+{% endblock %}
